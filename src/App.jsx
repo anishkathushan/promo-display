@@ -28,8 +28,8 @@ function App() {
       // Start video only when status changes from no to yes
       // Do not restart if video is already playing
       if (
-        currentStatus === "detected" &&
-        previousStatus !== "detected" &&
+        currentStatus === "no" &&
+        previousStatus !== "no" &&
         !isPlayingRef.current
       ) {
         isPlayingRef.current = true;
