@@ -4,8 +4,6 @@ import { db } from "./firebase";
 import "./App.css";
 
 const SENSOR_STATUS_PATH = "ir_breakbeam/status";
-// const LOGO_SRC = "/logo.png";
-// const VIDEO_SRC = "/promo.mp4";
 const LOGO_SRC = import.meta.env.BASE_URL + "logo.png";
 const VIDEO_SRC = import.meta.env.BASE_URL + "promo.mp4";
 
@@ -13,9 +11,14 @@ function App() {
   const videoRef = useRef(null);
 
   const [showVideo, setShowVideo] = useState(false);
+  const [audioReady, setAudioReady] = useState(false);
 
   const isPlayingRef = useRef(false);
   const previousStatusRef = useRef("no");
+
+  const unlockAudio = () => {
+    setAudioReady(true);
+  };
 
   useEffect(() => {
     const statusRef = ref(db, SENSOR_STATUS_PATH);
@@ -27,8 +30,6 @@ function App() {
 
       const previousStatus = previousStatusRef.current;
 
-      // Start video only when status changes from no to yes
-      // Do not restart if video is already playing
       if (
         currentStatus === "detected" &&
         previousStatus !== "detected" &&
@@ -53,7 +54,7 @@ function App() {
     video.volume = 1.0;
 
     video.play().catch((error) => {
-      console.log("Video autoplay with sound was blocked:", error);
+      console.log("Sound autoplay blocked. Click the page once first.", error);
     });
   }, [showVideo]);
 
@@ -63,13 +64,14 @@ function App() {
   };
 
   return (
-    <main className="screen">
+    <main className="screen" onClick={unlockAudio}>
       {showVideo ? (
         <section className="video-stage">
           <video
             ref={videoRef}
             className="promo-video"
             src={VIDEO_SRC}
+            preload="auto"
             playsInline
             onEnded={handleVideoEnded}
           />
