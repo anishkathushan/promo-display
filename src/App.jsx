@@ -13,13 +13,13 @@ function App() {
   const [showVideo, setShowVideo] = useState(false);
 
   const isPlayingRef = useRef(false);
-  const previousStatusRef = useRef("y");
+  const previousStatusRef = useRef("no");
 
   useEffect(() => {
     const statusRef = ref(db, SENSOR_STATUS_PATH);
 
     const unsubscribe = onValue(statusRef, (snapshot) => {
-      const currentStatus = String(snapshot.val() || "y")
+      const currentStatus = String(snapshot.val() || "no")
         .trim()
         .toLowerCase();
 
@@ -28,8 +28,8 @@ function App() {
       // Start video only when status changes from no to yes
       // Do not restart if video is already playing
       if (
-        currentStatus === "no" &&
-        previousStatus !== "no" &&
+        currentStatus === "detected" &&
+        previousStatus !== "detected" &&
         !isPlayingRef.current
       ) {
         isPlayingRef.current = true;
