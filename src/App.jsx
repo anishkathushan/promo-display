@@ -4,7 +4,7 @@ import { db } from "./firebase";
 import "./App.css";
 
 const SENSOR_STATUS_PATH = "ir_breakbeam/status";
-const LOGO_SRC = import.meta.env.BASE_URL + "logo.png";
+const LOGO_SRC = import.meta.env.BASE_URL + "logoo.png";
 const VIDEO_SRC = import.meta.env.BASE_URL + "promo.mp4";
 
 function App() {
