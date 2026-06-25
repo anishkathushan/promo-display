@@ -14,7 +14,7 @@ function App() {
   const [audioReady, setAudioReady] = useState(false);
 
   const isPlayingRef = useRef(false);
-  const previousStatusRef = useRef("no");
+  const previousStatusRef = useRef("y");
 
   const unlockAudio = () => {
     setAudioReady(true);
@@ -24,15 +24,15 @@ function App() {
     const statusRef = ref(db, SENSOR_STATUS_PATH);
 
     const unsubscribe = onValue(statusRef, (snapshot) => {
-      const currentStatus = String(snapshot.val() || "no")
+      const currentStatus = String(snapshot.val() || "y")
         .trim()
         .toLowerCase();
 
       const previousStatus = previousStatusRef.current;
 
       if (
-        currentStatus === "detected" &&
-        previousStatus !== "detected" &&
+        currentStatus === "no" &&
+        previousStatus !== "no" &&
         !isPlayingRef.current
       ) {
         isPlayingRef.current = true;
